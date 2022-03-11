@@ -1,0 +1,59 @@
+name: Build
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 0 1 * *'
+
+jobs:
+  prepare_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate tag name
+        run: |
+          echo "tag_name=$(git rev-parse --abbrev-ref HEAD)-$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
+      - name: Get time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: 'YYYYMMDD-HHmm'
+      - name: Create empty release
+        id: release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.tag_name }}
+          name: ${{ steps.time.outputs.time }}
+          body_path: README.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target_commitish: main
+          draft: false
+    outputs:
+      release_id: ${{ steps.release.outputs.id }}
+  build:
+    runs-on: ubuntu-latest
+    needs: prepare_release
+    strategy:
+      matrix:
+        BOARD: [rock-5b]
+        DISTRO: [debos]
+        FLAVOR: [debian, ubuntu]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Upload Armbian image
+        uses: radxa/armbian-compile-action@main
+        if: matrix.DISTRO == 'armbian'
+        with:
+          board: ${{ matrix.BOARD }}
+          flavor: ${{ matrix.FLAVOR }}
+          release-id: ${{ needs.prepare_release.outputs.release_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload debos-radxa image
+        uses: radxa/debos-build-action@main
+        if: matrix.DISTRO == 'debos'
+        with:
+          board: ${{ matrix.BOARD }}
+          flavor: ${{ matrix.FLAVOR }}
+          release-id: ${{ needs.prepare_release.outputs.release_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
