@@ -10,9 +10,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate tag name
-        run: |
-          echo "tag_name=$(git rev-parse --abbrev-ref HEAD)-$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
       - name: Get time
         id: time
         uses: nanzm/get-time-action@v1.1
@@ -22,8 +19,7 @@ jobs:
         id: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.tag_name }}
-          name: ${{ steps.time.outputs.time }}
+          tag_name: ${{ steps.time.outputs.time }}
           body_path: README.md
           token: ${{ secrets.GITHUB_TOKEN }}
           target_commitish: main
