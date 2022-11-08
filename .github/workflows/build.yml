@@ -1,4 +1,4 @@
-name: Build
+name: Monthly build
 on:
   workflow_dispatch:
   schedule:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get time
         id: time
         uses: nanzm/get-time-action@v1.1
@@ -24,6 +24,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target_commitish: main
           draft: false
+          prerelease: true
     outputs:
       release_id: ${{ steps.release.outputs.id }}
   build:
@@ -31,25 +32,45 @@ jobs:
     needs: prepare_release
     strategy:
       matrix:
-        BOARD: [rock-5b]
-        DISTRO: [debos]
-        FLAVOR: [debian, ubuntu]
+        boards: [rock-5b]
+        build_systems: [debos, rbuild, armbian]
+        distros: [debian, ubuntu]
+        flavors: [kde, cli]
+        exclude:
+          - build_systems: debos
+            distros: debian
+            flavors: cli
+          - build_systems: debos
+            distros: ubuntu
+            flavors: kde
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Upload Armbian image
         uses: radxa/armbian-compile-action@main
-        if: matrix.DISTRO == 'armbian'
+        if: matrix.build_systems == 'armbian'
         with:
-          board: ${{ matrix.BOARD }}
-          flavor: ${{ matrix.FLAVOR }}
+          board: ${{ matrix.boards }}
+          distro: ${{ matrix.distros }}
+          flavor: ${{ matrix.flavors }}
+          kernel_branch: legacy
           release-id: ${{ needs.prepare_release.outputs.release_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload debos-radxa image
         uses: radxa/debos-build-action@main
-        if: matrix.DISTRO == 'debos'
+        if: matrix.build_systems == 'debos'
         with:
-          board: ${{ matrix.BOARD }}
-          flavor: ${{ matrix.FLAVOR }}
+          board: ${{ matrix.boards }}
+          distro: ${{ matrix.distros }}
+          flavor: ${{ matrix.flavors }}
+          release-id: ${{ needs.prepare_release.outputs.release_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload rbuild image
+        uses: radxa-repo/rbuild@main
+        if: matrix.build_systems == 'rbuild'
+        with:
+          board: ${{ matrix.boards }}
+          distro: ${{ matrix.distros }}
+          flavor: ${{ matrix.flavors }}
           release-id: ${{ needs.prepare_release.outputs.release_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
