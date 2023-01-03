@@ -10,11 +10,8 @@ Not all images are officially supported by Radxa. Some of them are only provided
 ## What images are provided?
 
 Currently the following images are provided:
-* Radxa [`debos-radxa`](https://github.com/radxa/debos-radxa) images (currently supported)
 * Radxa [`rbuild`](https://github.com/radxa-repo/rbuild) images (currently testing)
 * [`Armbian`](https://github.com/armbian/build) images (**Unofficial build**)
-
-`debos-radxa` images contain the build time in the file name, while `rbuild` images have a fixed file name across releases. They have similar file name format as `rbuild` is intended to replace `debos-radxa`. Once we deem `rbuild` is production-ready we will cease to produce `debos-radxa` images to avoid confusion.
 
 We provide **unofficial** Armbian images for evaluation purposes only. This is not a Radxa custom fork but built using unmodified upstream code. We do not support those images, and prefer to work with upstream directly to resolve the issues in their official releases.
 
