@@ -10,16 +10,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Get time
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
         id: time
-        uses: nanzm/get-time-action@v1.1
         with:
           format: 'YYYYMMDD-HHmm'
       - name: Create empty release
         id: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.time.outputs.time }}
+          tag_name: ${{ steps.time.outputs.formattedTime }}
           body_path: README.md
           token: ${{ secrets.GITHUB_TOKEN }}
           target_commitish: main
@@ -35,7 +35,7 @@ jobs:
         boards: [rock-5b]
         build_systems: [rbuild, armbian]
         distros: [debian, ubuntu]
-        flavors: [kde, cli]
+        flavors: [kde, xfce, cli]
         exclude:
           - build_systems: debos
             distros: debian
@@ -43,9 +43,13 @@ jobs:
           - build_systems: debos
             distros: ubuntu
             flavors: kde
+          - build_systems: armbian
+            flavors: xfce
+          - build_systems: debos
+            flavors: xfce
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Upload Armbian image
         uses: radxa/armbian-compile-action@main
         if: matrix.build_systems == 'armbian'
