@@ -1,5 +1,5 @@
 # ROCK 5B
-[![Build](https://github.com/radxa-build/rock-5b/workflows/Build/badge.svg)](https://github.com/radxa-build/rock-5b/actions/workflows/build.yml)
+[![Build image for Release channel](https://github.com/radxa-build/rock-5b/actions/workflows/build.yml/badge.svg)](https://github.com/radxa-build/rock-5b/actions/workflows/build.yml)[![Build image for Test channel](https://github.com/radxa-build/rock-5b/actions/workflows/test.yml/badge.svg)](https://github.com/radxa-build/rock-5b/actions/workflows/test.yml)
 
 ## What is this?
 
@@ -10,7 +10,7 @@ Not all images are officially supported by Radxa. Some of them are only provided
 ## What images are provided?
 
 Currently the following images are provided:
-* Radxa [`rbuild`](https://github.com/radxa-repo/rbuild) images (currently testing)
+* Radxa [`rbuild`](https://github.com/radxa-repo/rbuild) images
 
 ## Is there any other options?
 
