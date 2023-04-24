@@ -1,8 +1,6 @@
 name: Build image for Release channel
 on:
   workflow_dispatch:
-  schedule:
-    - cron:  '0 0 1 * *'
 
 jobs:
   prepare_release:
