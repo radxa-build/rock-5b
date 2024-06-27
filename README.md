@@ -1,29 +1,20 @@
 # ROCK 5B
-[![Build image for Release channel](https://github.com/radxa-build/rock-5b/actions/workflows/build.yml/badge.svg)](https://github.com/radxa-build/rock-5b/actions/workflows/build.yml)[![Build image for Test channel](https://github.com/radxa-build/rock-5b/actions/workflows/test.yml/badge.svg)](https://github.com/radxa-build/rock-5b/actions/workflows/test.yml)
+[![Build image for Release channel](https://github.com/radxa-build/rock-5b/actions/workflows/build.yaml/badge.svg)](https://github.com/radxa-build/rock-5b/actions/workflows/build.yaml) [![Build image for Test channel](https://github.com/radxa-build/rock-5b/actions/workflows/test.yaml/badge.svg)](https://github.com/radxa-build/rock-5b/actions/workflows/test.yaml)
 
 ## What is this?
 
 This repo is the central location for Radxa-built system images for ROCK 5B.
 
-Not all images are officially supported by Radxa. Some of them are only provided as-is with no warranty. Please read below for detailed explanations.
-
 ## What images are provided?
 
-Currently the following images are provided:
-* Radxa [`rbuild`](https://github.com/radxa-repo/rbuild) images
+Please also always use [the latest release](https://github.com/radxa-build/rock-5b/releases/latest) instead of any pre-release / test builds. Those will not be supported.
 
-## Is there any other options?
+## Where is the source code?
 
-Armbian users are strongly recommended to use [Armbian official image](https://www.armbian.com/rock-5b/).
-
-Please visit [our Wiki](https://wiki.radxa.com/Rock5/downloads) for more download options.
-
-## Where can I download the Radxa image?
-
-Every month new images are [built](https://github.com/radxa-build/rock-5b/actions/workflows/build.yml) and [published](https://github.com/radxa-build/rock-5b/releases) as pre-releases, which serve as release candidates (RC). Radxa will periodically select an RC for additional testing, and once it passes those tests, promote it as an officially supported release. This is why you are always recommended to use [the latest release](https://github.com/radxa-build/rock-5b/releases/latest).
+This repository is only for hosting the GitHub workflows that build the image. As such, you will need to examine the workflow to find the builder.
 
 ## Help! Something doesn't work!
 
-For other questions, please first take a look at [our Wiki](https://wiki.radxa.com/Rock5), which covers the most basic usages.
+For other questions, please first take a look at [our Documentation](https://docs.radxa.com), which covers the most basic usages.
 
 Should you have any additional questions, please visit [our forum](https://forum.radxa.com/) or [our Discord](https://rock.sh/go), and we are willing to help.
