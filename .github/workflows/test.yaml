@@ -15,6 +15,7 @@ jobs:
         product: "${{ matrix.product }}"
         release-id: "${{ needs.prepare_release.outputs.release_id }}"
         suite: "${{ matrix.suite }}"
+        tag_name: "rsdk-t${{ github.run_number }}"
         test-repo: true
         timestamp: "t${{ github.run_number }}"
     strategy:
@@ -32,6 +33,16 @@ jobs:
     steps:
     - name: "Checkout"
       uses: "actions/checkout@v4"
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+    - name: "Check for existing releases"
+      run: |
+        TAG="rsdk-t${{ github.run_number }}"
+        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
+            echo "Release ${TAG} exists."
+            exit 1
+        fi
     - name: "Generate changelog"
       uses: "radxa-repo/rbuild-changelog@main"
       with:
@@ -50,8 +61,9 @@ jobs:
           Only use when specifically instructed by Radxa support.
         draft: false
         files: ".changelog/changelog.md"
+        name: "t${{ github.run_number }} (rsdk)"
         prerelease: true
-        tag_name: "t${{ github.run_number }}"
+        tag_name: "rsdk-t${{ github.run_number }}"
         target_commitish: "main"
         token: "${{ secrets.GITHUB_TOKEN }}"
 name: "Build image for test channel"
