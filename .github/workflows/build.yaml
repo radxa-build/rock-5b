@@ -51,7 +51,7 @@ jobs:
         product: "rock-5b"
     - id: "release"
       name: "Create empty release"
-      uses: "softprops/action-gh-release@v2"
+      uses: "softprops/action-gh-release@v3"
       with:
         body_path: "README.md"
         draft: false
