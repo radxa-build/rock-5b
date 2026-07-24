@@ -35,7 +35,7 @@ jobs:
         fetch-tags: true
     - name: "Check for existing releases"
       run: |
-        TAG="rsdk-b${{ github.run_number }}"
+        TAG="rsdk-r${{ github.run_number }}"
         if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
             echo "Release ${TAG} exists."
             exit 1
@@ -56,9 +56,9 @@ jobs:
         body_path: "README.md"
         draft: false
         files: ".changelog/changelog.md"
-        name: "b${{ github.run_number }} (rsdk)"
+        name: "r${{ github.run_number }} (rsdk)"
         prerelease: true
-        tag_name: "rsdk-b${{ github.run_number }}"
+        tag_name: "rsdk-r${{ github.run_number }}"
         target_commitish: "main"
         token: "${{ secrets.GITHUB_TOKEN }}"
 name: "Build image for release channel"
